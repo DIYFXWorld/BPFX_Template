@@ -28,9 +28,8 @@ static	uint32_t Value;
 	x[80]+x[81]+x[82]+x[83]+x[84]+x[85]+x[86]+x[87]+x[88]+x[89]+\
 	x[90]+x[91]+x[92]+x[93]+x[94]+x[95]+x[96]+x[97]+x[98]+x[99]
 
-static const	int	_c_ = 4095*50;
 static const	int	_a_ = 65535/15;
-static const	int	_b_ = _c_/15;
+static const	int	_b_ = (4095*50)/15;
 
 extern "C" void HAL_ADC_ConvHalfCpltCallback( ADC_HandleTypeDef* hadc )
 {
@@ -64,11 +63,14 @@ extern "C" void HAL_ADC_ConvCpltCallback( ADC_HandleTypeDef* hadc )
 
 void Audio::Input_Start()
 {
-#ifndef	STM32F411xE
-#ifndef	STM32F401xC
+#if defined(STM32F103xB)
 	if( HAL_ADCEx_Calibration_Start( &AUDIO_INPUT_HADC ) != HAL_OK )
     Error_Handler();
 #endif
+
+#if	defined(STM32F303xC)
+	if( HAL_ADCEx_Calibration_Start( &AUDIO_INPUT_HADC, ADC_SINGLE_ENDED ) != HAL_OK )
+    Error_Handler();
 #endif
 
   if( HAL_ADC_Start_DMA( &AUDIO_INPUT_HADC, ( uint32_t* )DMA_Buffer, DMA_Buffer_Length ) != HAL_OK )
@@ -80,5 +82,5 @@ void Audio::Input_Start()
 
 __weak void Audio_Invalid_Callback( int )
 {
-  Audio::Set_Output( 0 );
+	Audio::Set_Output( 0 );
 }

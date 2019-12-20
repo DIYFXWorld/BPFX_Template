@@ -60,12 +60,6 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define User_LED_Pin GPIO_PIN_13
-#define User_LED_GPIO_Port GPIOC
-#define Use_Dry_Signal_Pin GPIO_PIN_15
-#define Use_Dry_Signal_GPIO_Port GPIOC
-#define UART_Pull_Up_Pin GPIO_PIN_1
-#define UART_Pull_Up_GPIO_Port GPIOA
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
